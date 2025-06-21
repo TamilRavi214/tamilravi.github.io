@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tamilarasan Ravi | Tech Visionary</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+  <style>
+    :root {
+      --primary: #053c5e;
+      --secondary: #075c89;
+      --accent: #45b8f2;
+      --text: #FDF6E3;
+      --card-bg: rgba(5, 60, 94, 0.85);
+      --neon-glow: 0 0 10px rgba(69, 184, 242, 0.8);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; text-shadow: var(--neon-glow); }
+      50% { opacity: 1; text-shadow: 0 0 20px var(--accent); }
+    }
+    
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes hologram {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    #vanta-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    /* Cyberpunk Glow Effect */
+    .cyber-border {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, 
+        var(--accent), 
+        #45b8f200, 
+        var(--accent), 
+        #45b8f200, 
+        var(--accent));
+      background-size: 400%;
+      border-radius: 24px;
+      z-index: -1;
+      animation: hologram 8s linear infinite;
+      filter: blur(8px);
+      opacity: 0.7;
+    }
+    
+    /* Main Card */
+    .card {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 1rem 3rem rgba(0,0,0,0.5);
+      text-align: center;
+      max-width: 30rem;
+      width: 90%;
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(69, 184, 242, 0.3);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-0.5rem) scale(1.02);
+      box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.6);
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(69, 184, 242, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+      z-index: -1;
+    }
+    
+    /* Holographic Profile */
+    .profile {
+      width: 7rem;
+      height: 7rem;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      filter: drop-shadow(var(--neon-glow));
+    }
+    
+    .hologram {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      background: linear-gradient(135deg, 
+        rgba(69, 184, 242, 0.3), 
+        rgba(5, 60, 94, 0.7), 
+        rgba(69, 184, 242, 0.3));
+      border: 2px solid var(--accent);
+      box-shadow: 
+        0 0 20px rgba(69, 184, 242, 0.6),
+        inset 0 0 20px rgba(69, 184, 242, 0.4);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      animation: pulse 4s infinite ease-in-out;
+    }
+    
+    .hologram::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        transparent,
+        transparent,
+        rgba(255,255,255,0.2)
+      );
+      transform: rotate(30deg);
+      animation: hologram 6s linear infinite;
+    }
+    
+    .card:hover .hologram {
+      transform: scale(1.1);
+      box-shadow: 
+        0 0 30px rgba(69, 184, 242, 0.8),
+        inset 0 0 30px rgba(69, 184, 242, 0.6);
+    }
+    
+    /* Content */
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to right, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: var(--neon-glow);
+      position: relative;
+    }
+    
+    .role {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--accent);
+      animation: pulse 3s infinite ease-in-out;
+      position: relative;
+    }
+    
+    .org {
+      display: inline-block;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      margin: 0.5rem 0 1.5rem;
+      position: relative;
+      opacity: 0.9;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .org:hover {
+      opacity: 1;
+      color: var(--accent);
+    }
+    
+    .org::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .org:hover::after {
+      transform: scaleX(1);
+    }
+    
+    /* Tech Tags */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    
+    .tech-tag {
+      background: rgba(69, 184, 242, 0.1);
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--accent);
+      border: 1px solid rgba(69, 184, 242, 0.3);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .tech-tag:hover {
+      background: var(--accent);
+      color: var(--primary);
+      box-shadow: var(--neon-glow);
+    }
+    
+    /* Buttons */
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    
+    .btn {
+      padding: 0.8rem 1.4rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      min-width: 8rem;
+      justify-content: center;
+    }
+    
+    .btn-primary {
+      background: var(--accent);
+      color: var(--primary);
+      box-shadow: 0 0.3rem 1rem rgba(69, 184, 242, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0.5rem 1.5rem rgba(69, 184, 242, 0.6);
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.3),
+        rgba(255,255,255,0)
+      );
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .btn-primary:hover::before {
+      transform: translateX(100%);
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+      border: 1px solid rgba(69, 184, 242, 0.3);
+      backdrop-filter: blur(5px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(69, 184, 242, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(69, 184, 242, 0.4);
+    }
+    
+    /* Digital Wave */
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23045B88" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23045B88" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%2345B8F2"/></svg>');
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: 5;
+      opacity: 0.7;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .card {
+        padding: 1.8rem;
+      }
+      
+      .profile {
+        width: 6rem;
+        height: 6rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .btn {
+        min-width: 7rem;
+        padding: 0.7rem 1.2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .btn {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="vanta-bg"></div>
+  <div class="wave"></div>
+  
+  <div class="card">
+    <div class="cyber-border"></div>
+    
+    <div class="profile">
+      <div class="hologram">TR</div>
+    </div>
+    
+    <h1>Tamilarasan Ravi</h1>
+    <p class="role">Co-Founder | Project Manager</p>
+    <a href="https://www.yantravision.com" target="_blank" class="org">
+      Yantravision Software Pvt Ltd
+    </a>
+    
+    <div class="tech-tags">
+      <span class="tech-tag">FPGA Architect</span>
+      <span class="tech-tag">Embedded Systems</span>
+      <span class="tech-tag">Computer Vision</span>
+      <span class="tech-tag">AI/ML</span>
+    </div>
+    
+    <div class="btn-container">
+      <a href="tel:+919092523418" class="btn btn-primary">
+        <i class="fas fa-phone-alt"></i> Call
+      </a>
+      <a href="mailto:ravi.tamil@yantravision.com" class="btn btn-primary">
+        <i class="fas fa-envelope"></i> Email
+      </a>
+      <a href="https://www.linkedin.com/in/tamilravi" target="_blank" class="btn btn-secondary">
+        <i class="fab fa-linkedin-in"></i> LinkedIn
+      </a>
+      <a href="file:///Users/tamilravi/tamilWorks/tamilravi.github.io/myPortfolio.html" target="_blank" class="btn btn-secondary">
+        <i class="fas fa-user-tie"></i> Portfolio
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Advanced 3D Background with Vanta.js
+    VANTA.NET({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0x45b8f2,
+      backgroundColor: 0x053c5e,
+      points: 12.00,
+      maxDistance: 22.00,
+      spacing: 17.00
+    });
+    
+    // 3D Parallax Effect
+    const card = document.querySelector('.card');
+    let bounds;
+    
+    function rotateToMouse(e) {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const leftX = mouseX - bounds.x;
+      const topY = mouseY - bounds.y;
+      const center = {
+        x: leftX - bounds.width / 2,
+        y: topY - bounds.height / 2
+      };
+      const distance = Math.sqrt(center.x**2 + center.y**2);
+      
+      card.style.transform = `
+        scale(1.03)
+        rotateX(${center.y / 15}deg)
+        rotateY(${-center.x / 15}deg)
+        translateY(-10px)
+      `;
+      
+      // Glow effect follows mouse
+      const glow = document.querySelector('.cyber-border');
+      glow.style.backgroundPosition = `
+        ${center.x * 2 + bounds.width}px 
+        ${center.y * 2 + bounds.height}px
+      `;
+    }
+    
+    card.addEventListener('mouseenter', () => {
+      bounds = card.getBoundingClientRect();
+      document.addEventListener('mousemove', rotateToMouse);
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      document.removeEventListener('mousemove', rotateToMouse);
+      card.style.transform = 'translateY(-10px) scale(1.03)';
+    });
+    
+    // Typewriter effect for tech tags
+    const techTags = document.querySelectorAll('.tech-tag');
+    const terms = [
+      "FPGA Design", "VHDL/Verilog", "Embedded C", 
+      "OpenCV", "TensorFlow", "PyTorch",
+      "System Architecture", "AI Solutions", "ML Models",
+      "Computer Vision", "Image Processing", "Kernel Dev"
+    ];
+    
+    techTags.forEach((tag, index) => {
+      let termIndex = index % terms.length;
+      let charIndex = 0;
+      let isDeleting = false;
+      
+      function type() {
+        const currentTerm = terms[termIndex];
+        
+        if (isDeleting) {
+          tag.textContent = currentTerm.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          tag.textContent = currentTerm.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === currentTerm.length) {
+          isDeleting = true;
+          setTimeout(type, 1500);
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          termIndex = (termIndex + 1) % terms.length;
+          setTimeout(type, 300);
+        } else {
+          setTimeout(type, isDeleting ? 50 : 100);
+        }
+      }
+      
+      setTimeout(type, 1000 * index);
+    });
+  </script>
+</body>
+</html>

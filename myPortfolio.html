@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tamilarasan Ravi | Tech Visionary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <style>
+    :root {
+      --primary: #053c5e;
+      --secondary: #075c89;
+      --accent: #45b8f2;
+      --text: #FDF6E3;
+      --card-bg: rgba(5, 60, 94, 0.85);
+      --neon-glow: 0 0 10px rgba(69, 184, 242, 0.8);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; text-shadow: var(--neon-glow); }
+      50% { opacity: 1; text-shadow: 0 0 20px var(--accent); }
+    }
+    
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes hologram {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes wave {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      position: relative;
+    }
+    
+    /* 3D Network Background */
+    #vanta-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    /* Circuit Board Effect */
+    .circuit {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(to right, rgba(69, 184, 242, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(69, 184, 242, 0.1) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: circuitMove 60s linear infinite;
+      z-index: -1;
+      opacity: 0.3;
+    }
+    
+    /* Floating Tech Elements */
+    .tech-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .tech-element {
+      position: absolute;
+      color: rgba(253, 246, 227, 0.1);
+      font-size: 1rem;
+      font-weight: 600;
+      pointer-events: none;
+      animation: float 15s infinite ease-in-out;
+      text-transform: uppercase;
+    }
+    
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: rgba(5, 60, 94, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(69, 184, 242, 0.2);
+      transform: translateY(-100%);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    header.visible {
+      transform: translateY(0);
+    }
+    
+    .header-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      text-shadow: var(--neon-glow);
+      letter-spacing: 0.5px;
+    }
+    
+    .header-nav {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 10% 6rem;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      z-index: 2;
+      position: relative;
+    }
+    
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 4rem;
+      margin: 0;
+      color: var(--text);
+      line-height: 1.2;
+      text-shadow: var(--neon-glow);
+      margin-bottom: 1.5rem;
+    }
+    
+    .typed-text {
+      min-height: 3rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      text-shadow: var(--neon-glow);
+    }
+    
+    .hero-btns {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .btn-primary {
+      background: var(--accent);
+      color: var(--primary);
+      box-shadow: 0 0.5rem 1.5rem rgba(69, 184, 242, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 1rem 2rem rgba(69, 184, 242, 0.6);
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+    
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    
+    .btn-secondary {
+      background: var(--glass-bg);
+      color: var(--text);
+      border: 1px solid rgba(69, 184, 242, 0.3);
+      backdrop-filter: blur(5px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(69, 184, 242, 0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 0.5rem 1.5rem rgba(69, 184, 242, 0.3);
+    }
+    
+    /* Sections */
+    .section {
+      padding: 6rem 10%;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 3rem;
+      margin-bottom: 3rem;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, var(--accent), var(--text));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      text-align: center;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5rem;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    
+    /* About Section */
+    .about-content {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .about-text {
+      flex: 1;
+    }
+    
+    .about-text p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .about-text p::before {
+      content: '»';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+    
+    .about-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .holographic-card {
+      width: 100%;
+      max-width: 350px;
+      height: 400px;
+      background: linear-gradient(
+        135deg,
+        rgba(69, 184, 242, 0.1),
+        rgba(5, 60, 94, 0.3),
+        rgba(69, 184, 242, 0.1)
+      );
+      border-radius: 1rem;
+      border: 1px solid rgba(69, 184, 242, 0.3);
+      box-shadow: 
+        0 0 2rem rgba(69, 184, 242, 0.3),
+        inset 0 0 1rem rgba(69, 184, 242, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      animation: pulse 4s infinite ease-in-out;
+    }
+    
+    .holographic-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        transparent,
+        transparent,
+        transparent,
+        rgba(255,255,255,0.1)
+      );
+      transform: rotate(30deg);
+      animation: hologram 8s linear infinite;
+    }
+    
+    .profile-image {
+      width: 80%;
+      height: 80%;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 2rem rgba(0,0,0,0.5);
+    }
+    
+    /* Skills Section */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .skill-category {
+      background: var(--glass-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .skill-category:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
+      border-color: rgba(69, 184, 242, 0.3);
+    }
+    
+    .skill-category h3 {
+      margin-top: 0;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .skill-category h3 i {
+      font-size: 1.5rem;
+    }
+    
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .skill-item {
+      background: rgba(69, 184, 242, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(69, 184, 242, 0.2);
+    }
+    
+    .skill-item:hover {
+      background: var(--accent);
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--neon-glow);
+    }
+    
+    /* Experience Section */
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 4rem;
+    }
+    
+    .timeline-content {
+      background: var(--glass-bg);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .timeline-content:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
+      border-color: rgba(69, 184, 242, 0.3);
+    }
+    
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 2rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0.5rem var(--accent);
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-left: 50%;
+      padding-left: 3rem;
+    }
+    
+    .timeline-item:nth-child(odd) .timeline-content::before {
+      left: -0.75rem;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-right: 50%;
+      padding-right: 3rem;
+      text-align: right;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-content::before {
+      right: -0.75rem;
+    }
+    
+    .timeline-date {
+      display: block;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .timeline-title {
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    
+    .timeline-company {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .timeline-desc {
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(253, 246, 227, 0.9);
+    }
+    
+    /* Projects Section */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .project-card {
+      background: var(--glass-bg);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
+      border-color: rgba(69, 184, 242, 0.3);
+    }
+    
+    .project-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .project-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(5, 60, 94, 0.7)
+      );
+      z-index: 1;
+    }
+    
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover .project-image img {
+      transform: scale(1.1);
+    }
+    
+    .project-info {
+      padding: 2rem;
+    }
+    
+    .project-title {
+      margin: 0 0 1rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    
+    .project-desc {
+      margin: 0 0 1.5rem;
+      line-height: 1.7;
+      color: rgba(253, 246, 227, 0.9);
+    }
+    
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .project-tag {
+      background: rgba(69, 184, 242, 0.1);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(69, 184, 242, 0.2);
+    }
+    
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .project-link {
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .project-link:hover {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    
+    /* Education Section */
+    .education-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .education-card {
+      background: var(--glass-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .education-card:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
+      border-color: rgba(69, 184, 242, 0.3);
+    }
+    
+    .education-degree {
+      margin: 0 0 0.5rem;
+      color: var(--accent);
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .education-institution {
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .education-duration {
+      display: block;
+      margin-bottom: 1rem;
+      color: rgba(253, 246, 227, 0.8);
+      font-size: 0.9rem;
+    }
+    
+    .education-desc {
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(253, 246, 227, 0.9);
+    }
+    
+    /* Contact Section */
+    .contact-container {
+      display: flex;
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .contact-info {
+      flex: 1;
+    }
+    
+    .contact-card {
+      background: var(--glass-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
+      border-color: rgba(69, 184, 242, 0.3);
+    }
+    
+    .contact-card h3 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-card p {
+      margin: 0;
+      line-height: 1.7;
+      color: rgba(253, 246, 227, 0.9);
+    }
+    
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .contact-link {
+      color: var(--text);
+      font-size: 1.5rem;
+      transition: all 0.3s ease;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--glass-bg);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .contact-link:hover {
+      color: var(--accent);
+      transform: translateY(-5px);
+      background: rgba(69, 184, 242, 0.1);
+      box-shadow: 0 0.5rem 1rem rgba(69, 184, 242, 0.2);
+    }
+    
+    .contact-form {
+      flex: 1;
+      background: var(--glass-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(69, 184, 242, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .contact-form:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
+      border-color: rgba(69, 184, 242, 0.3);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 0.5rem;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(69, 184, 242, 0.05);
+      box-shadow: 0 0 0.5rem rgba(69, 184, 242, 0.2);
+    }
+    
+    .form-textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(69, 184, 242, 0.3);
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0.8rem 2rem rgba(69, 184, 242, 0.4);
+    }
+    
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,0.2);
+      padding: 2rem;
+      text-align: center;
+      margin-top: 6rem;
+      border-top: 1px solid rgba(69, 184, 242, 0.1);
+    }
+    
+    .footer-text {
+      margin: 0;
+      color: rgba(253, 246, 227, 0.8);
+      font-size: 0.9rem;
+    }
+    
+    /* Animations */
+    @keyframes circuitMove {
+      100% { background-position: 1000px 1000px; }
+    }
+    
+    @keyframes glow {
+      from { text-shadow: 0 0 10px var(--accent); }
+      to { text-shadow: 0 0 20px var(--accent), 0 0 30px var(--accent); }
+    }
+    
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+      .hero h1 {
+        font-size: 3.5rem;
+      }
+      
+      .section {
+        padding: 5rem 8%;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      
+      .typed-text {
+        font-size: 1.5rem;
+      }
+      
+      .about-content {
+        flex-direction: column;
+      }
+      
+      .holographic-card {
+        margin-top: 3rem;
+      }
+      
+      .contact-container {
+        flex-direction: column;
+      }
+      
+      .timeline::before {
+        left: 2rem;
+      }
+      
+      .timeline-item:nth-child(odd) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 4rem;
+        margin-right: 0;
+        padding-left: 2rem;
+        text-align: left;
+      }
+      
+      .timeline-item:nth-child(odd) .timeline-content::before,
+      .timeline-item:nth-child(even) .timeline-content::before {
+        left: -0.75rem;
+        right: auto;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+        position: fixed;
+        top: 5rem;
+        left: 0;
+        width: 100%;
+        background: rgba(5, 60, 94, 0.9);
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0;
+        gap: 1.5rem;
+        backdrop-filter: blur(10px);
+      }
+      
+      .header-nav.active {
+        display: flex;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .hero {
+        padding: 6rem 5% 4rem;
+        text-align: center;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .typed-text {
+        font-size: 1.3rem;
+      }
+      
+      .hero-btns {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .section {
+        padding: 4rem 5%;
+      }
+      
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .skills-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .typed-text {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+      }
+      
+      .education-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 3D Network Background -->
+  <div id="vanta-bg"></div>
+  
+  <!-- Circuit Board Effect -->
+  <div class="circuit"></div>
+  
+  <!-- Floating Tech Elements -->
+  <div class="tech-elements" id="techElements"></div>
+  
+  <!-- Header -->
+  <header id="headerBar">
+    <div class="header-left">
+      <div class="header-name">Tamilarasan Ravi</div>
+    </div>
+    <nav class="header-nav" id="headerNav">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#education" class="nav-link">Education</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Tamilarasan Ravi</h1>
+      <div class="typed-text" id="typedText"></div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Contact Me
+        </a>
+        <a href="#projects" class="btn btn-secondary">
+          <i class="fas fa-code"></i> View Projects
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- About Section -->
+  <section class="section" id="about">
+    <h2 class="section-title">About Me</h2>
+    <p class="section-subtitle">Innovative technology leader with a passion for building impactful solutions</p>
+    
+    <div class="about-content">
+      <div class="about-text">
+        <p>
+          I'm <strong>Tamilarasan Ravi</strong>, a passionate <strong>technology enthusiast</strong> and <strong>problem solver</strong> with over a decade of experience in FPGA architecture, embedded systems, and AI-driven automation.
+        </p>
+        <p>
+          As <strong>Co-Founder of Yantravision</strong>, I lead a team of brilliant engineers developing cutting-edge solutions for next-generation technologies. Our work spans across pre/post-silicon validation, kernel optimizations, and system design.
+        </p>
+        <p>
+          My expertise includes FPGA development, computer vision, automation frameworks, and embedded system design. I thrive on solving complex technical challenges and transforming ideas into reality.
+        </p>
+        <p>
+          When I'm not coding or designing systems, you can find me exploring new technologies, mentoring young engineers, or contributing to open-source projects.
+        </p>
+      </div>
+      <div class="about-image">
+        <div class="holographic-card">
+          <!-- Replace with your profile image -->
+          <img src="profilephoto_transparent.png" alt="Tamilarasan Ravi" class="profile-image">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <h2 class="section-title">My Skills</h2>
+    <p class="section-subtitle">Technologies and tools I work with</p>
+    
+    <div class="skills-container">
+      <div class="skill-category">
+        <h3><i class="fas fa-microchip"></i> Hardware</h3>
+        <div class="skill-items">
+          <div class="skill-item">FPGA</div>
+          <div class="skill-item">VHDL</div>
+          <div class="skill-item">Verilog</div>
+          <div class="skill-item">SystemVerilog</div>
+          <div class="skill-item">Embedded Systems</div>
+	  <div class="skill-item">Computer Architecure</div>
+        </div>
+      </div>
+      
+      <div class="skill-category">
+        <h3><i class="fas fa-code"></i> Programming</h3>
+        <div class="skill-items">
+          <div class="skill-item">C++</div>
+          <div class="skill-item">Python</div>
+          <div class="skill-item">C</div>
+          <div class="skill-item">JavaScript</div>
+          <div class="skill-item">Shell Scripting</div>
+          <div class="skill-item">MATLAB</div>
+          <div class="skill-item">SystemC</div>
+          <div class="skill-item">Perl Scripting</div>	  
+          <div class="skill-item">C#</div>	  
+        </div>
+      </div>
+      
+      <div class="skill-category">
+        <h3><i class="fas fa-eye"></i> Computer Vision</h3>
+        <div class="skill-items">
+          <div class="skill-item">OpenCV</div>
+          <div class="skill-item">Image Processing</div>
+          <div class="skill-item">Object Detection</div>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><i class="fas fa-fpga"></i> Tool Chains</h3>
+        <div class="skill-items">
+          <div class="skill-item">Vivado</div>
+          <div class="skill-item">Vitis</div>
+          <div class="skill-item">Vivado HLS</div>
+          <div class="skill-item">Petalinux</div>
+        </div>
+      </div>           
+      <div class="skill-category">
+        <h3><i class="fas fa-server"></i> DevOps</h3>
+        <div class="skill-items">
+          <div class="skill-item">Compiler Development</div>
+          <div class="skill-item">Regression Automation</div>
+          <div class="skill-item">Docker</div>
+          <div class="skill-item">Git</div>
+          <div class="skill-item">CI/CD</div>
+          <div class="skill-item">Linux</div>
+          <div class="skill-item">Automation</div>
+          <div class="skill-item">Jekins</div>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><i class="fas fa-project-diagram"></i> Project Management</h3>
+        <div class="skill-items">
+          <div class="skill-item">Agile</div>
+          <div class="skill-item">Scrum</div>
+          <div class="skill-item">Team Leadership</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Experience Section -->
+  <section class="section" id="experience">
+    <h2 class="section-title">Work Experience</h2>
+    <p class="section-subtitle">My professional journey</p>
+    
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-date">2020 - Present</span>
+          <h3 class="timeline-title">Co-Founder & Project Manager</h3>
+          <span class="timeline-company">Yantravision</span>
+          <p class="timeline-desc">
+            Lead engineering services in FPGA, embedded systems, and AI-driven automation. Manage cross-functional teams and oversee project delivery for clients in semiconductor and tech industries. Spearheaded development of 15+ successful projects with clients including Fortune 500 companies.
+          </p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-date">2016 - 2020</span>
+          <h3 class="timeline-title">Senior Engineer</h3>
+          <span class="timeline-company">XYZ Corp</span>
+          <p class="timeline-desc">
+            Developed high-performance computing modules and optimized embedded kernels. Led a team of 5 engineers in developing FPGA-based solutions for image processing applications that achieved 5x performance improvement over previous implementations.
+          </p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-date">2012 - 2016</span>
+          <h3 class="timeline-title">Embedded Engineer</h3>
+          <span class="timeline-company">ABC Tech</span>
+          <p class="timeline-desc">
+            Worked on embedded system design and automation frameworks. Developed device drivers and optimized system performance for real-time applications, reducing latency by 40% in critical systems.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <h2 class="section-title">My Projects</h2>
+    <p class="section-subtitle">Some of my recent work</p>
+    
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-image">
+          <img src="project1.jpg" alt="FPGA Accelerator">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">FPGA-Based Image Processing Accelerator</h3>
+          <p class="project-desc">
+            Developed a high-performance image processing pipeline using FPGA with 5x speed improvement over software implementation. Implemented custom VHDL cores for real-time processing of 4K video streams.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">FPGA</span>
+            <span class="project-tag">OpenCV</span>
+            <span class="project-tag">VHDL</span>
+            <span class="project-tag">Real-time</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">
+              <i class="fas fa-external-link-alt"></i> Live Demo
+            </a>
+            <a href="#" class="project-link">
+              <i class="fab fa-github"></i> Source Code
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project-card">
+        <div class="project-image">
+          <img src="project2.jpg" alt="Automation Framework">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">AI-Powered Test Automation Framework</h3>
+          <p class="project-desc">
+            Created an intelligent test automation system that reduces validation time by 70% using computer vision and machine learning. Integrated with CI/CD pipelines to enable continuous testing.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">TensorFlow</span>
+            <span class="project-tag">OpenCV</span>
+            <span class="project-tag">CI/CD</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">
+              <i class="fas fa-external-link-alt"></i> Case Study
+            </a>
+            <a href="#" class="project-link">
+              <i class="fab fa-github"></i> Source Code
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project-card">
+        <div class="project-image">
+          <img src="project3.jpg" alt="Embedded System">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Real-Time Embedded Vision System</h3>
+          <p class="project-desc">
+            Designed an embedded system for real-time object detection with low power consumption and high accuracy. Achieved 30fps processing on ARM Cortex-M7 with custom optimized algorithms.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Embedded C</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">TensorFlow Lite</span>
+            <span class="project-tag">ARM</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">
+              <i class="fas fa-external-link-alt"></i> Demo Video
+            </a>
+            <a href="#" class="project-link">
+              <i class="fab fa-github"></i> Source Code
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Education Section -->
+  <section class="section" id="education">
+    <h2 class="section-title">Education</h2>
+    <p class="section-subtitle">My academic background</p>
+    
+    <div class="education-grid">
+      <div class="education-card">
+        <h3 class="education-degree">Master of Technology (M.Tech)</h3>
+        <h4 class="education-institution">Indian Institute of Technology (IIT), Delhi</h4>
+        <span class="education-duration">2010 - 2012</span>
+        <p class="education-desc">
+          Specialization in VLSI Design and Embedded Systems. Thesis on "FPGA-based Accelerators for Computer Vision Applications" published in IEEE Transactions. GPA: 8.9/10.
+        </p>
+      </div>
+      
+      <div class="education-card">
+        <h3 class="education-degree">Bachelor of Engineering (B.E.)</h3>
+        <h4 class="education-institution">Anna University, Chennai</h4>
+        <span class="education-duration">2006 - 2010</span>
+        <p class="education-desc">
+          Electronics and Communication Engineering. Graduated with First Class Honors. Specialized in Digital Signal Processing and Microcontroller Architectures.
+        </p>
+      </div>
+      
+      <div class="education-card">
+        <h3 class="education-degree">Professional Certifications</h3>
+        <h4 class="education-institution">Various Institutions</h4>
+        <span class="education-duration">2012 - Present</span>
+        <p class="education-desc">
+          Certified Scrum Master (CSM), Advanced FPGA Design (Xilinx), Deep Learning Specialization (Coursera), AWS Certified Solutions Architect, and more.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="section-subtitle">Let's collaborate on something great</p>
+    
+    <div class="contact-container">
+      <div class="contact-info">
+        <div class="contact-card">
+          <h3><i class="fas fa-envelope"></i> Email</h3>
+          <p>ravi.tamil@yantravision.com</p>
+        </div>
+        
+        <div class="contact-card">
+          <h3><i class="fas fa-phone"></i> Phone</h3>
+          <p>+91 9092523418</p>
+        </div>
+        
+        <div class="contact-card">
+          <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+          <p>Chennai, India</p>
+        </div>
+        
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/tamilravi" target="_blank" class="contact-link">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://github.com/tamilravi" target="_blank" class="contact-link">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://twitter.com/tamilravi" target="_blank" class="contact-link">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://stackoverflow.com/users/tamilravi" target="_blank" class="contact-link">
+            <i class="fab fa-stack-overflow"></i>
+          </a>
+        </div>
+      </div>
+      
+      <form class="contact-form" id="contactForm">
+        <div class="form-group">
+          <label for="name" class="form-label">Your Name</label>
+          <input type="text" id="name" class="form-input" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email" class="form-label">Your Email</label>
+          <input type="email" id="email" class="form-input" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" id="subject" class="form-input" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="message" class="form-label">Message</label>
+          <textarea id="message" class="form-textarea" required></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </form>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <p class="footer-text">&copy; <span id="currentYear"></span> Tamilarasan Ravi. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Initialize Vanta.js 3D network background
+    VANTA.NET({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0x45b8f2,
+      backgroundColor: 0x053c5e,
+      points: 12.00,
+      maxDistance: 22.00,
+      spacing: 17.00
+    });
+    
+    // Create floating tech elements
+    const techElements = document.getElementById('techElements');
+    const techTerms = [
+      'FPGA', 'VHDL', 'Verilog', 'SystemVerilog', 'ASIC', 'RTL',
+      'C++', 'Python', 'Embedded C', 'OpenCV', 'TensorFlow', 'PyTorch',
+      'Computer Vision', 'AI', 'ML', 'Docker', 'Kubernetes', 'CI/CD',
+      'Agile', 'Scrum', 'Linux', 'ARM', 'Xilinx', 'Altera'
+    ];
+    
+    for (let i = 0; i < 30; i++) {
+      const element = document.createElement('div');
+      element.className = 'tech-element';
+      element.textContent = techTerms[Math.floor(Math.random() * techTerms.length)];
+      
+      // Random properties
+      const left = Math.random() * 100;
+      const top = Math.random() * 100;
+      const delay = Math.random() * 5;
+      const duration = 15 + Math.random() * 15;
+      const size = 0.8 + Math.random() * 1.2;
+      const opacity = 0.05 + Math.random() * 0.1;
+      
+      element.style.left = `${left}%`;
+      element.style.top = `${top}%`;
+      element.style.animationDelay = `${delay}s`;
+      element.style.animationDuration = `${duration}s`;
+      element.style.fontSize = `${size}rem`;
+      element.style.opacity = opacity;
+      
+      techElements.appendChild(element);
+    }
+    
+    // Typed.js animation for hero section
+    const typed = new Typed('#typedText', {
+      strings: [
+        'Co-Founder',
+        'Project Manager',
+        'Technology Leader',
+        'Problem Solver',
+	      'PSGian'
+
+      ],
+      typeSpeed: 50,
+      backSpeed: 30,
+      loop: true,
+      showCursor: true,
+      cursorChar: '|',
+      smartBackspace: true
+    });
+    
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const headerNav = document.getElementById('headerNav');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      headerNav.classList.toggle('active');
+      mobileMenuBtn.innerHTML = headerNav.classList.contains('active') ? 
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          headerNav.classList.remove('active');
+          mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Form submission handler
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Here you would typically send the form data to a server
+        // For this template, we'll just show an alert
+        alert('Thank you for your message! I will get back to you soon.');
+        this.reset();
+      });
+    }
+    
+    // Update current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Show header after a short delay
+    setTimeout(() => {
+      document.getElementById('headerBar').classList.add('visible');
+    }, 500);
+    
+    // Parallax effect on scroll
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const header = document.getElementById('headerBar');
+      
+      // Header background effect
+      let headerOpacity = 0.3 + (scrollY / 300);
+      if (headerOpacity > 1) headerOpacity = 1;
+      header.style.background = `rgba(5, 60, 94, ${headerOpacity})`;
+      
+      // Subtle parallax for sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        const speed = 0.2;
+        const yPos = -(scrollY * speed);
+        section.style.backgroundPosition = `center ${yPos}px`;
+      });
+    });
+  </script>
+</body>
+</html>
